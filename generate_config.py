@@ -16,17 +16,13 @@ print('This script generates configuration for squid workers.')
 
 # получаем кол. воркеров
 while True:
-	workers_num = input("Enter Squid workers num (default your system %s): " % max_workers_num)
+	workers_num = input("Enter Squid workers num (recommend max for your system: %s): " % max_workers_num)
 
 	if workers_num is '':
 		workers_num = max_workers_num
 
 	try:
 		workers_num = int(workers_num)
-
-		if workers_num > max_workers_num:
-			print('ERROR: enter a value less than %s' % max_workers_num)
-			continue
 
 		break
 	except:
@@ -112,7 +108,7 @@ while True:
 		continue
 
 	if worker_i not in configs:
-		configs[worker_i] = ''
+		configs[worker_i] = 'http_port 90${process_number}'
 
 	ip = final_ips.get()
 
@@ -124,7 +120,7 @@ while True:
 	worker_i += 1
 
 	all_ips.append(ip)
-	all_ips_insert.append("{type: 'proxy', enabled: true, protocol: 'http', port: '901', proxy: '%s', groups: ['se_google', 'se_yandex']}" % ip)
+	all_ips_insert.append("{type: 'proxy', enabled: true, protocol: 'http', port: '90%s', proxy: '%s', groups: ['se_google', 'se_yandex']}" % (worker_i, ip))
 
 print('\n\n')
 
