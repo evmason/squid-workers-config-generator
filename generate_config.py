@@ -16,7 +16,7 @@ print('This script generates configuration for squid workers.')
 
 # получаем кол. воркеров
 while True:
-	workers_num = input("Enter Squid workers num (recommend max for your system: %s): " % max_workers_num)
+	workers_num = input("Enter Squid workers num (recommend for your system: %s): " % max_workers_num)
 
 	if workers_num is '':
 		workers_num = max_workers_num
@@ -108,7 +108,7 @@ while True:
 		continue
 
 	if worker_i not in configs:
-		configs[worker_i] = 'http_port 90${process_number}'
+		configs[worker_i] = 'http_port 90${process_number}\n\n'
 
 	ip = final_ips.get()
 
@@ -142,7 +142,7 @@ main_config = 'workers %s\n\n%s' % (workers_num, main_config)
 main_file_name = 'include_workers.conf'
 
 f = open(main_file_name, 'w')
-f.write(configs[worker_i])
+f.write(main_config)
 f.close()
 
 print('GENERATE:', main_file_name)
